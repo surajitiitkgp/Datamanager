@@ -11,7 +11,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Vector;
 import java.util.function.Predicate;
-import java.util.regex.Pattern;
 import org.json.simple.JSONObject;
 import org.json.simple.JSONArray;
 import org.json.simple.parser.JSONParser;
@@ -61,9 +60,9 @@ public class DataManager {
      *
      */
     public String show(){
-        String dataSet="";
+        String dataSet = "";
         int dataSetLength = data.size();
-        String keySet="", values="";
+        String keySet = "", values = "";
         boolean isHeaderSet = false;    //Weather column namnes are set on the top of the data
         for(int i=0;i<dataSetLength;i++){  //Loop for reading each JSON Object  
             JSONObject jsObj = (JSONObject) data.get(i); //Parsing each data object from JSONArray
@@ -73,10 +72,10 @@ public class DataManager {
                 values += jsObj.get(key)+" , ";    //Get the value of all dimensions and measures  
             }
             isHeaderSet = true;
-            values=values.substring(0, values.lastIndexOf(","))+"\n";   //Remove the last "," and add line break;
+            values = values.substring(0, values.lastIndexOf(","))+"\n";   //Remove the last "," and add line break;
         }
-        keySet=keySet.substring(0, keySet.lastIndexOf(","))+"\n";   //Remove the last "," and add line break;
-        dataSet=keySet+values;
+        keySet = keySet.substring(0, keySet.lastIndexOf(","))+"\n";   //Remove the last "," and add line break;
+        dataSet = keySet+values;
         return dataSet;
     }
     /**
@@ -89,20 +88,20 @@ public class DataManager {
      *
      */    
     public String project(String col[]) throws Exception{
-        String dataSet="";
+        String dataSet = "";
         int dataSetLength = data.size();
-        String keySet="", values="";
-        for(int i=0;i<dataSetLength;i++){
+        String keySet = "", values = "";
+        for(int i = 0 ; i<dataSetLength ; i++){
             JSONObject jsObj = (JSONObject) data.get(i);
             for(Object key:col){
-                    if(i==0)
+                    if(i == 0)
                        keySet += key+" , "; 
                     values += jsObj.get(key)+" , ";      
             }
-            values=values.substring(0, values.lastIndexOf(","))+"\n";
+            values = values.substring(0, values.lastIndexOf(","))+"\n";
         }
-        keySet=keySet.substring(0, keySet.lastIndexOf(","))+"\n";
-        dataSet=keySet+values;
+        keySet = keySet.substring(0, keySet.lastIndexOf(","))+"\n";
+        dataSet = keySet+values;
         return dataSet;
     }
     /**
@@ -122,7 +121,7 @@ public class DataManager {
         columnNames.add(col);
         try{
             JSONArray jsArrSchema = schema;
-            for(int i=0;i<jsArrSchema.size();i++){  //Create a list of measure columns
+            for(int i = 0 ; i<jsArrSchema.size() ; i++){  //Create a list of measure columns
                 JSONObject element = (JSONObject) jsArrSchema.get(i);
                 if(element.get("type").equals("dimension") && element.get("name").equals(col)){
                     isValidDimensionColumn = true;
@@ -135,7 +134,7 @@ public class DataManager {
             
             JSONArray jsDataSet = data;
             int jsDataSetLength = jsDataSet.size();           
-            for(int i=0;i<jsDataSetLength;i++){
+            for(int i = 0 ; i<jsDataSetLength ; i++){
                 JSONObject groupListObj = (JSONObject) jsDataSet.get(i);
                 Vector measureDataList = new Vector();
                 Vector measuresData = new Vector();
@@ -175,12 +174,12 @@ public class DataManager {
             Vector v = data.get(key);
             Vector rows = new Vector();
             rows.add(key);
-            for(int j=0;j<measureSize;j++){ //Sum elements at same index of the vectors into a single vector
-                double sum=0; 
-                 for(int i=0;i<v.size();i++){
+            for(int j = 0 ; j<measureSize ; j++){ //Sum elements at same index of the vectors into a single vector
+                double sum = 0; 
+                 for(int i = 0 ; i<v.size() ; i++){
                      double valueDouble = 0.0;
                      Vector v1 = (Vector) v.get(i);
-                     if(!String.valueOf(v1.get(j)).equals("null") || v1.get(j)!=null) //If null, it will be 0.0 (default)
+                     if(!String.valueOf(v1.get(j)).equals("null") || v1.get(j) != null) //If null, it will be 0.0 (default)
                          valueDouble = Double.parseDouble(v1.get(j).toString());
                      sum += valueDouble;
                  }
@@ -209,7 +208,7 @@ public class DataManager {
 
             boolean isHeaderSet = false;
             Vector keySet = new Vector();
-            for(int i=0;i<jsDataSetLength;i++){
+            for(int i = 0 ; i<jsDataSetLength ; i++){
                 //String keySet="", values="";
                 Vector values = new Vector();
                 JSONObject jsObj = (JSONObject) jsDataSet.get(i);
@@ -232,6 +231,9 @@ public class DataManager {
         return result;
     }    
     
+    /*private static Exception DataManagerException(int id, String errorMessage){
+        
+    }*/
     
     
 }
