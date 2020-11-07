@@ -36,8 +36,13 @@ Create a Java class file (Test.java). Import the DataManager as shown below.
 
 ### Usage of Data Operators
 
---- ``loadData('data path')`` This function takes the JSON file as an input and load the data ([cars.js](https://raw.githubusercontent.com/surajitiitkgp/Datamanager/master/cars.json)). Exmaple: ``loadData('cars.json')``.
-
---- ``loadSchema('schema path')`` This function ta
-
---- ``show()`` function is called to display the entire dataset.
+* ``loadData('data path')`` This function takes the JSON file as an input and load the data ([cars.json](https://raw.githubusercontent.com/surajitiitkgp/Datamanager/master/cars.json)). Exmaple: ``dm.loadData('cars.json')``.
+* ``loadSchema('schema path')`` This function takes the JSON schema as an input and load the schema ([schema.json](https://raw.githubusercontent.com/surajitiitkgp/Datamanager/master/schema.json)). Exmaple: ``dm.loadSchema('schema.json')``.
+* ``show()`` This function is called to display the entire dataset. Exmaple: ``dm.show()``.
+* ``project('list of column names')`` This function is called to print only selected data object. Exmaple: 
+```sh
+String columns[] = {"Name", "Maker", "Origin", "Year"};
+dm.project(columns);
+```
+* ``groupBy('Dimension column')`` This function takes a column name as an input. The name of a column must be a 'dimension'. It returns all measure fields with corresponding aggregated ( mean ) values and given 'column' field. Example: ``dm.groupBy("Maker")``.
+* ``select(column, <condition>)`` This function takes accept two parameter as an input, column name and conditions. Then returns the only values which datisfies the condition.
