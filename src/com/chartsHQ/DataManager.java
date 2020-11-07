@@ -33,8 +33,10 @@ public class DataManager {
      */ 
     public void loadData(String dataPath) throws Exception{ 
         JSONParser parser = new JSONParser(); 
-        JSONArray jsonData = (JSONArray) parser.parse(new FileReader(dataPath));// Parses the json data
-        this.data = jsonData;   //Set the JSON data in global variable
+        // Parses the json data
+        JSONArray jsonData = (JSONArray) parser.parse(new FileReader(dataPath));
+        //Set the JSON data in global variable
+        this.data = jsonData;   
     }
     
     /**
@@ -47,9 +49,11 @@ public class DataManager {
      */     
     public void loadSchema(String schemaPath) throws Exception{
         JSONParser parser = new JSONParser();
-        JSONObject jsObj = (JSONObject) parser.parse(new FileReader(schemaPath));// Parses the json data
+        // Parses the json data
+        JSONObject jsObj = (JSONObject) parser.parse(new FileReader(schemaPath));
         JSONArray jsonSchema = (JSONArray) jsObj.get("schema");
-        this.schema = jsonSchema; //Set the schema information in global variable
+        //Set the schema information in global variable
+        this.schema = jsonSchema; 
     }
     
     /**
@@ -63,18 +67,26 @@ public class DataManager {
         String dataSet = "";
         int dataSetLength = data.size();
         String keySet = "", values = "";
-        boolean isHeaderSet = false;    //Weather column namnes are set on the top of the data
-        for(int i=0;i<dataSetLength;i++){  //Loop for reading each JSON Object  
-            JSONObject jsObj = (JSONObject) data.get(i); //Parsing each data object from JSONArray
-            for(Object key:jsObj.keySet()){    //Loop for reading value of the corresponding key
+        //Weather column namnes are set on the top of the data
+        boolean isHeaderSet = false;  
+        //Loop for reading each JSON Object
+        for(int i=0;i<dataSetLength;i++){    
+            //Parsing each data object from JSONArray
+            JSONObject jsObj = (JSONObject) data.get(i); 
+            //Loop for reading value of the corresponding key
+            for(Object key:jsObj.keySet()){    
                 if(!isHeaderSet)
-                   keySet += key+" , ";     //Get the Column names
-                values += jsObj.get(key)+" , ";    //Get the value of all dimensions and measures  
+                   //Get the Column names
+                   keySet += key+" , ";     
+                //Get the value of all dimensions and measures
+                values += jsObj.get(key)+" , ";      
             }
             isHeaderSet = true;
-            values = values.substring(0, values.lastIndexOf(","))+"\n";   //Remove the last "," and add line break;
+            //Remove the last "," and add line break;
+            values = values.substring(0, values.lastIndexOf(","))+"\n";   
         }
-        keySet = keySet.substring(0, keySet.lastIndexOf(","))+"\n";   //Remove the last "," and add line break;
+        //Remove the last "," and add line break;
+        keySet = keySet.substring(0, keySet.lastIndexOf(","))+"\n";   
         dataSet = keySet+values;
         return dataSet;
     }
@@ -121,7 +133,8 @@ public class DataManager {
         columnNames.add(col);
         try{
             JSONArray jsArrSchema = schema;
-            for(int i = 0 ; i<jsArrSchema.size() ; i++){  //Create a list of measure columns
+            //Create a list of measure columns
+            for(int i = 0 ; i<jsArrSchema.size() ; i++){  
                 JSONObject element = (JSONObject) jsArrSchema.get(i);
                 if(element.get("type").equals("dimension") && element.get("name").equals(col)){
                     isValidDimensionColumn = true;
@@ -139,19 +152,23 @@ public class DataManager {
                 Vector measureDataList = new Vector();
                 Vector measuresData = new Vector();
                 for(Object key:measures){
-                    measuresData.add(groupListObj.get(key));  //add the value of measures in vector  
+                    //add the value of measures in vector
+                    measuresData.add(groupListObj.get(key));    
                 }
-                if(measureDataSet.get(String.valueOf(groupListObj.get(col))) == null){ //If the hasmap values is empty of the corresponding key
+                //If the hasmap values is empty of the corresponding key
+                if(measureDataSet.get(String.valueOf(groupListObj.get(col))) == null){ 
                     measureDataList.add(measuresData);
                     measureDataSet.put(String.valueOf(groupListObj.get(col)), measureDataList);
                 }
-                else{   //If there is already some value in has table, get these and add the new.
+                //If there is already some value in has table, get these and add the new.
+                else{   
                     measureDataList = measureDataSet.get(String.valueOf(groupListObj.get(col)));
                     measureDataList.add(measuresData);
                     measureDataSet.put(String.valueOf(groupListObj.get(col)), measureDataList);
                 }
             }
-            return avg(columnNames, measureDataSet, measures.size());   //return the agregated mean         
+            //return the agregated mean
+            return avg(columnNames, measureDataSet, measures.size());            
         }catch(Exception ex){System.err.print(ex); return null;} 
     }
 
@@ -159,9 +176,11 @@ public class DataManager {
     /**
      * Get the mean of the group of measure
      *
-     * @param columnNames, data, easureSize
+     * @param columnNames
      *             columnNames is the list of column needs to be projected.
+     * @param data
      *             data is the Hash map of the group of object.
+     * @param  measureSize
      *             measureSize is the number of measure column.
      * 
      * @return The aggregated ( mean ) according the dimension.
@@ -174,7 +193,8 @@ public class DataManager {
             Vector v = data.get(key);
             Vector rows = new Vector();
             rows.add(key);
-            for(int j = 0 ; j<measureSize ; j++){ //Sum elements at same index of the vectors into a single vector
+            //Sum elements at same index of the vectors into a single vector
+            for(int j = 0 ; j<measureSize ; j++){ 
                 double sum = 0; 
                  for(int i = 0 ; i<v.size() ; i++){
                      double valueDouble = 0.0;
@@ -183,7 +203,8 @@ public class DataManager {
                          valueDouble = Double.parseDouble(v1.get(j).toString());
                      sum += valueDouble;
                  }
-                 rows.add(sum/v.size()); //Calculating mean
+                 //Calculating mean
+                 rows.add(sum/v.size()); 
             }
             result.add(rows+"\n");
         }
@@ -193,9 +214,10 @@ public class DataManager {
     /**
      * Project the dataset based on following condition
      *
-     * @param col, predicate
+     * @param col
      *             col is the name of the column on which we want to add filter.
-     *             predicate is the condition.
+     * @param predicate
+     *             predicate is the boolean-valued function.
      * 
      * @return List of filtered dataset.
      *
@@ -212,11 +234,12 @@ public class DataManager {
                 //String keySet="", values="";
                 Vector values = new Vector();
                 JSONObject jsObj = (JSONObject) jsDataSet.get(i);
-                if(predicate.test(Double.valueOf(jsObj.get(col).toString()))){ //Evaluates the condition
+                //Evaluates the condition
+                if(predicate.test(Double.valueOf(jsObj.get(col).toString()))){ 
                 for(Object key:jsObj.keySet()){
-                        if(!isHeaderSet)
-                           keySet.add(key); 
-                            values.add(jsObj.get(key));      
+                    if(!isHeaderSet)
+                       keySet.add(key); 
+                    values.add(jsObj.get(key));      
                 }
                 if(!isHeaderSet){
                     result.add(keySet+"\n");
@@ -231,9 +254,7 @@ public class DataManager {
         return result;
     }    
     
-    /*private static Exception DataManagerException(int id, String errorMessage){
-        
-    }*/
+
     
     
 }
