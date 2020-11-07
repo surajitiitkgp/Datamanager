@@ -45,4 +45,4 @@ String columns[] = {"Name", "Maker", "Origin", "Year"};
 dm.project(columns);
 ```
 * ``groupBy('Dimension column')`` This function takes a column name as an input. The name of a column must be a 'dimension'. It returns all measure fields with corresponding aggregated ( mean ) values and given 'column' field. Example: ``dm.groupBy("Maker")``.
-* ``select(column, <condition>)`` This function takes accept two parameter as an input, column name and conditions. Then returns the only values which datisfies the condition. Example: ``dm.select("Horsepower",(i) -> i > 95)``.
+* ``select(column, <condition>)`` This function takes accept two parameter as an input, column name and conditions. Then returns the only values which datisfies the condition. Example: ``dm.select("Horsepower",(i) -> (i > 95))``.
