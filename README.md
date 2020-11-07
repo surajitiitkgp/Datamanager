@@ -9,21 +9,33 @@ DataManager is built on JDK1.8. and Netbeans IDE 8.2
 
 ### Detailed installation procedure.
 
-DataManager is very easy to install.
+DataManager is very easy to install. Download the DataManager source code from the github repository and load this to NetBeans 8.2 or above version. Once the Project is loaded to the NetBeans IDE, make sure all the dependency library (org.json.simple) is inlcuded. 
 
 ### Build Command
 
+```sh
+NetNeans IDE > Open Project > Select the Project Directory (DataManager) > Open the project > Clean and Build
+```
+
+After the building the application the ``DataManager.jar`` file is created, which is located in ``dist`` folder. This jar file can be imported to any java class to perform the various operations via data operators.
 
 #### Test Command
 
-
-### Usage of Data Operators
+Create a Java class file (Test.java). Import the DataManager as shown below.
 
 ```sh
 1. import com.chartsHQ.DataManager; 
 2. DataManager dm = new DataManager();
-3. dm.show();
-4. dm.project(columns[]);
-5. dm.groupBy(column)
-6. dm.select(column, <condition>)
+3. dm.loadData('../path-of-data');
+4. dm.loadSchema('../path-of-schema')
+5. dm.show();
+6. dm.project(columns[]);
+7. dm.groupBy(column)
+8. dm.select(column, <condition>)
 ```
+
+### Usage of Data Operators
+
+--- ``loadData('data path')`` This function takes the JSON file as an input and load the data ([cars.js](https://raw.githubusercontent.com/surajitiitkgp/Datamanager/master/cars.json)). Exmaple: ``loadData('cars.json')``.
+--- ``loadSchema('schema path')`` This function ta
+--- ``show()`` function is called to display the entire dataset.
