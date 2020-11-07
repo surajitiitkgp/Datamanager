@@ -37,5 +37,7 @@ Create a Java class file (Test.java). Import the DataManager as shown below.
 ### Usage of Data Operators
 
 --- ``loadData('data path')`` This function takes the JSON file as an input and load the data ([cars.js](https://raw.githubusercontent.com/surajitiitkgp/Datamanager/master/cars.json)). Exmaple: ``loadData('cars.json')``.
+
 --- ``loadSchema('schema path')`` This function ta
+
 --- ``show()`` function is called to display the entire dataset.
