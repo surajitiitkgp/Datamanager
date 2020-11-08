@@ -125,7 +125,7 @@ public class DataManager {
      * @return The aggregated ( mean ) according the dimension.
      *
      */     
-    public List GroupBy(String col){
+    public List groupBy(String col){
         List<String> measures = new ArrayList();
         HashMap<String, Vector<Vector>> measureDataSet = new HashMap();
         boolean isValidDimensionColumn = false;
